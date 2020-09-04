@@ -146,7 +146,7 @@ void removeDirectory(char* path)
                 strcat(filepath,path);
                 strcat(filepath,"/");
                 strcat(filepath,present_directory->d_name);
-                if(remove(filepath))
+                if(unlink(filepath))
                 {
                     removeDirectory(filepath);
                 }
