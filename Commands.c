@@ -356,9 +356,12 @@ void cdcmd(char **argv,int argc,char *myloc)
         if(argc==2)
         {
             char *pres=curr_loc();
-            char *path=strcat(pres,"/");
-            path=strcat(path,argv[1]);
-            if(chdir(path)!=0)
+            if(argv[1][0]!='/')
+            {
+                strcat(pres,"/");
+            }
+            strcat(pres,argv[1]);
+            if(chdir(pres)!=0)
             {
                 perror("cd : Error");
             }
@@ -391,7 +394,7 @@ void rmcmd(char **argv,int argc)
     {
         for(int i=1;i<argc;i++)
         {
-            if(remove(argv[i]))
+            if(unlink(argv[i]))
             {
                 fprintf(stderr,"rm : %s : %s",argv[i],strerror(errno));   
             }
