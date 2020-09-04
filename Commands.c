@@ -51,7 +51,20 @@ void runcommand(char* command,char** argv,int toknum,char* myloc)
         {
             if(command!=" ")
             {
-                execvp(command,argv);
+                int rc=fork();
+                if(rc<0)
+                {
+                    fprintf(stderr,"fork failed for %s %s\n",command,strerror(errno));
+                    exit(EXIT_FAILURE);
+                }
+                else if(rc==0)
+                {
+                    execvp(command,argv);   
+                }
+                else
+                {
+                    wait(0);
+                }
             }
         }
 }
